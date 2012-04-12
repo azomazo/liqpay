@@ -61,7 +61,7 @@ module Liqpay
 
     def make_xml
       validate! unless @kamikaze
-      Nokogiri::XML::Builder.new { |xml|
+      Nokogiri::XML::Builder.new(:encoding => 'UTF-8') { |xml|
         xml.request {
           xml.version Liqpay::LIQBUY_API_VERSION
           xml.merchant_id merchant_id
