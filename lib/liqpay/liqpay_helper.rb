@@ -15,7 +15,7 @@ module Liqpay
       content_tag(:form, :id => id, :action => Liqpay::LIQBUY_ENDPOINT_URL, :method => :post) do
         result = hidden_field_tag(:operation_xml, liqpay_request.encoded_xml)+hidden_field_tag(:signature, liqpay_request.signature)
         if block_given?
-          result += yield
+          result += capture(&block)
         else
           result += submit_tag(title, :name => nil)
         end
