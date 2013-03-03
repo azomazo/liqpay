@@ -31,7 +31,7 @@ module Liqpay
 
     def initialize(options={})
       super(options)
-      
+
       @result_url = options[:result_url]
       @server_url = options[:server_url]
       @order_id = options[:order_id]
@@ -40,6 +40,8 @@ module Liqpay
       @description = options[:description]
       @default_phone = options[:default_phone]
       @pay_way = options[:pay_way]
+      @goods_id = options[:goods_id]
+      @exp_time = options[:exp_time]
       @kamikaze = options[:kamikaze]
     end
 
@@ -59,7 +61,7 @@ module Liqpay
 
     def make_xml
       validate! unless @kamikaze
-      Nokogiri::XML::Builder.new { |xml|
+      Nokogiri::XML::Builder.new(:encoding => 'UTF-8') { |xml|
         xml.request {
           xml.version Liqpay::LIQBUY_API_VERSION
           xml.merchant_id merchant_id
@@ -71,6 +73,8 @@ module Liqpay
           xml.description description
           xml.default_phone default_phone
           xml.pay_way pay_way.is_a?(Array) ? pay_way.join(',') : pay_way
+          xml.goods_id goods_id
+          xml.exp_time exp_time
         }
       }.to_xml
     end
